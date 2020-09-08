@@ -7,9 +7,29 @@ import pandas as pd
 from geopy.geocoders import Nominatim, GeoNames
 from python_countries import CountriesApi
 
+
+def getcountry(city):
+    #get country from city
+    num = Nominatim(user_agent='tz_filter')
+    place, cord = (lat, lng) = num.geocode(city)
+    country = place.split(',')[2]
+    return country.strip()
+
+def gettimezone(country):
+    #get time zone from country
+
+    city = [c.replace("United States", "USA") for c in country]
+    client = CountriesApi()
+    if country is list:
+        country = client.full_name(city[0])
+    else:
+        country = client.full_name(country)
+    timezone = country[0].get('timezones')
+    return timezone
+
 def getuserinfo(user_public_id):
     # get user basic info (picture,username, timezone)
-
+    
     response = requests.get("https://torre.bio/api/bios/{}"
                             .format(user_public_id))
 
@@ -19,23 +39,21 @@ def getuserinfo(user_public_id):
 
     timezone = response.json()['person']['location'].get('timezone')
 
-    timezone = timezone.split('/')[1]
+    print(timezone)
+    city = timezone.split('/')[1]
 
-    print(type(timezone))
+    print(timezone)
+    print('hola')
+    country = getcountry(city)
+    print(country)
+    utc = gettimezone(country)
+
+    print(utc)
 
     return {"name": username,
             "photo": userpicture,
-            "timezone": timezone
+            "timezone": utc
             }
-
-def gettimezone(country):
-    #get time zone from country
-
-    city = [c.replace("United States", "USA") for c in city]
-    client = CountriesApi()
-    country = client.full_name(city[0])
-    timezone = country[0].get('timezones')
-    return timezone
 
 def opportunitys():
     # get offer in the same time zone
