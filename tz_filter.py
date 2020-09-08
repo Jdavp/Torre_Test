@@ -18,13 +18,16 @@ def getcountry(city):
 def gettimezone(country):
     #get time zone from country
 
-    city = [c.replace("United States", "USA") for c in country]
+    country = [c.replace("United States", "USA") for c in country]
     client = CountriesApi()
-    if country is list:
-        country = client.full_name(city[0])
-    else:
-        country = client.full_name(country)
-    timezone = country[0].get('timezones')
+    try: 
+        if type(country) is list:
+            country = client.full_name(country[0])
+        else:
+            country = client.full_name(country)
+        timezone = country[0].get('timezones')
+    except:
+        timezone = []
     return timezone
 
 def getuserinfo(user_public_id):
@@ -39,16 +42,9 @@ def getuserinfo(user_public_id):
 
     timezone = response.json()['person']['location'].get('timezone')
 
-    print(timezone)
     city = timezone.split('/')[1]
-
-    print(timezone)
-    print('hola')
     country = getcountry(city)
-    print(country)
     utc = gettimezone(country)
-
-    print(utc)
 
     return {"name": username,
             "photo": userpicture,
@@ -63,9 +59,11 @@ def opportunitys():
     columns = df[["id", 'objective', "locations", "remote"]]
     columns['aretherelocations'] =  columns["locations"].apply(lambda x: 1 if len(x) > 0 else 0)
     offers_remote_location = columns[(columns['remote'] & columns['aretherelocations'] == 1)]
+    print(offers_remote_location)
     offers_remote_location['timezone'] = offers_remote_location['locations'].apply(lambda x: gettimezone(x))
+
     return 0
 
-#opportunitys()
+opportunitys()
 #gettimezone()
-getuserinfo('juandiegoalejandro')
+#getuserinfo('juandiegoalejandro')
