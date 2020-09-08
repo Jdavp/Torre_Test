@@ -14,6 +14,7 @@ $(document).ready(function () {
                 content += '<h2>' + data.name + '</h2>'
                 content += '<p id="user_tz">' + data.timezone +'</p>'
                 $('#userinfo').html(content)
+                ''
               data_table(data.timezone)
             }
         });
@@ -48,6 +49,8 @@ $(document).ready(function () {
             dataType:"html",
             success: function (data) {
               $('#same_utc').html(data)
+              let table = document.querySelector('.dataframe')
+              table.classList.add('table')
             }
           });
   }

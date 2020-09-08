@@ -63,11 +63,12 @@ def opportunitys(utc):
     offers_remote_location['timezone'] = offers_remote_location['locations'].apply(lambda x: gettimezone(x))
     offers_remote_location['same_utc'] = offers_remote_location['timezone'].apply(lambda x: str(utc) in str(x)) 
     df_same_utc = offers_remote_location[offers_remote_location['same_utc'] == True]
-    final_df = df_same_utc [["id", 'objective', 'locations']]
+    final_df = df_same_utc[["id", 'objective', 'locations']]
+    final_df.rename(columns={'id':'Offer Link', 'objective':'Position', 'locations':'Locations'}, inplace=True)
+    #final_df.drop(axis=0)
+    print(final_df.columns)
+    print(final_df.index)
 
-# data = df_same_utc.to_json("index")
-
-# print(data)
     return(final_df)
 
 #user_utc =  getuserinfo().get('timezone')
