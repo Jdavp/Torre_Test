@@ -52,7 +52,7 @@ def getuserinfo(user_public_id):
             "timezone": utc
             }
 
-def opportunitys(user_utc):
+def opportunitys(utc):
     # get offer in the same time zone
 
     response = requests.post("https://search.torre.co/opportunities/_search/?offset=0&size=100").json()
@@ -61,14 +61,15 @@ def opportunitys(user_utc):
     columns['aretherelocations'] =  columns["locations"].apply(lambda x: 1 if len(x) > 0 else 0)
     offers_remote_location = columns[(columns['remote'] & columns['aretherelocations'] == 1)]
     offers_remote_location['timezone'] = offers_remote_location['locations'].apply(lambda x: gettimezone(x))
-    offers_remote_location['same_utc'] = offers_remote_location['timezone'].apply(lambda x: str(user_utc) in str(x)) 
+    offers_remote_location['same_utc'] = offers_remote_location['timezone'].apply(lambda x: str(utc) in str(x)) 
     df_same_utc = offers_remote_location[offers_remote_location['same_utc'] == True]
+    final_df = df_same_utc [["id", 'objective', 'locations']]
 
-    data = df_same_utc.to_json("index")
+# data = df_same_utc.to_json("index")
 
-    print(data)
-    return JsonResponse(json.loads(data))
+# print(data)
+    return(final_df)
 
-getuserinfo('juandiegoalejandro')
-opportunitys(getuserinfo().get('timezone'))
+#user_utc =  getuserinfo().get('timezone')
+#opportunitys = getuserinfo()
 #gettimezone()

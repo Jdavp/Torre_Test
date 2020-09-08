@@ -18,6 +18,7 @@ host =  '0.0.0.0'
 port =   5000
 
 
+
 @app.errorhandler(404)
 def handle_404(exception):
     """
@@ -42,7 +43,6 @@ def handle_400(exception):
 @app.route('/')
 def index():
     "Main page for Torre Test"
-    #return render_template('index.html', matches=intersection_of_strengths('xica369'), user=getuserinfo('xica369'))
     return render_template('index.html')
 
 @app.route('/status', methods=['GET'])
@@ -54,19 +54,22 @@ def status():
         resp = {"status": "OK"}
         return jsonify(resp)
 
-@app.route('/same_utc/', methods=['GET'])
-def same_utc(userpbid):
-    """
-    function for status route that returns the status
-    """
-    return jsonify(opportunitys())
-
 @app.route('/main_user/<userpbid>', methods=['GET'])
 def main_user(userpbid):
     """
     function for status route that returns the status
     """
     return jsonify(getuserinfo(userpbid))
+
+
+@app.route('/same_utc/', methods=('GET', 'POST'))
+def same_utc():
+    """
+    function for status route that returns the status
+    """
+    user_timezone = request.args.get('timezone')
+    opportunitys_user = opportunitys(user_timezone)
+    return opportunitys_user.to_html(classes='data', header="true")
 
 if __name__ == "__main__":
     """
