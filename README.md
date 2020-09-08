@@ -7,7 +7,11 @@ This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.
 
 ## Installation
 * Clone this repository: `git clone "https://github.com/Jdavp/Torre_Test.git"`
+* If you dont have python you can install acadonda for your OS : https://docs.anaconda.com/anaconda/install/
 * Access AirBnb directory: `cd torre_test`
+* you will have to create and envoiroment python3 -m venv venv
+* venv/Scripts/activate active env
+* pip install -r requeriments.txt
 * Run index.py: verify on your localhost:5000
 * enjoy
 
