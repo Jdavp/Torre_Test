@@ -69,7 +69,3 @@ def opportunitys(utc):
     final_df['Offer Link'] = 'https://torre.co/en/jobs/' + final_df['Offer Link'].astype(str)
     
     return(final_df)
-
-#user_utc =  getuserinfo().get('timezone')
-#opportunitys = getuserinfo()
-#gettimezone()
