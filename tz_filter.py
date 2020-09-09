@@ -67,7 +67,7 @@ def opportunitys(utc):
     final_df = df_same_utc[["id", 'objective', 'locations']]
     final_df.rename(columns={'id':'Offer Link', 'objective':'Position', 'locations':'Locations'}, inplace=True)
     final_df['Offer Link'] = 'https://torre.co/en/jobs/' + final_df['Offer Link'].astype(str)
-
+    
     return(final_df)
 
 #user_utc =  getuserinfo().get('timezone')
